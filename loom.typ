@@ -262,13 +262,18 @@
 
 #let _knot-counter = counter("loom-knot")
 
+// linen-based backgrounds matching LaTeX: warm cream with subtle color tint
+#let _knot-bg-indigo = rgb("#F9F5EE")   // linen!60!white
+#let _knot-bg-madder = rgb("#F0E3D7")   // madder!6!linen
+#let _knot-bg-weld   = rgb("#F0E5CF")   // weld!10!linen
+
 #let knot-box(title: none, note: none, color: indigo, numbered: true, body) = {
   let bg = if color == indigo {
-    color.lighten(95%)
+    _knot-bg-indigo
   } else if color == madder {
-    madder.lighten(93%)
+    _knot-bg-madder
   } else {
-    weld.lighten(90%)
+    _knot-bg-weld
   }
 
   v(8pt)
