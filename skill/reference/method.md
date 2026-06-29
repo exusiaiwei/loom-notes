@@ -10,16 +10,16 @@ Roughly **70% readable, 30% to fill.** Put the gaps at the *high-value thinking 
 not everywhere.
 
 **Leave readable (passive):**
-- Motivation and intuition (the `strand`).
+- Motivation and intuition (the `#strand`).
 - Theorem / proposition statements — in full. The learner should always know the claim.
 - The shape of a proof (the named steps), and any standard input that isn't the point.
 - The cheat-sheet / dictionary scaffolding.
 
 **Blank out (active):**
-- The *key step* of a proof — the one move that makes it work → `\TODO{…}`.
-- A *defining clause* of a definition (state the term + frame, blank the condition) → `\fillin`.
-- The *computation* in a worked example → restage as a `yourturn` box.
-- The *punchline number / answer* (degree, dimension, the constant) → `\fillin`.
+- The *key step* of a proof — the one move that makes it work → `#TODO[…]`.
+- A *defining clause* of a definition (state the term + frame, blank the condition) → `#fillin()`.
+- The *computation* in a worked example → restage as a `#yourturn[…]` box.
+- The *punchline number / answer* (degree, dimension, the constant) → `#fillin()`.
 - A row of the dictionary the section is about → blank cell.
 
 ## Find the spine first
@@ -36,9 +36,10 @@ Keep the source's section order only if it *is* the best shape.
 
 ## Per-section rhythm
 
-`strand` (thesis) → `\trigger`/`\block` (the paradigm + master fact) → cheat-table →
-knots (definition · theorem · example) with their gaps → a `strand` of "why it goes this
-way" → `\loose`/`\recall` (open threads) → `\warmth{0}` at the top for self-assessment.
+`#strand` (thesis) → `#trigger` / `#block-heading` (the paradigm + master fact) →
+cheat-table → knots (definition · theorem · example) with their gaps → a `#strand` of
+"why it goes this way" → `#loose` / `#recall` (open threads) → `#warmth(0)` at the top
+for self-assessment.
 
 ## Tone
 
