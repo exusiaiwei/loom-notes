@@ -2,7 +2,7 @@
 
 # 🧶 Loom
 
-### Weave your understanding — a gorgeous XeLaTeX class for **fill-in study notes**
+### Weave your understanding — gorgeous **fill-in study notes** in Typst (or XeLaTeX)
 
 *Notes you both **read** and **fill**: statements and intuition to take in,
 blanks and proof-skeletons to work out. Learn by active recall, on paper that
@@ -11,6 +11,7 @@ looks like an illuminated manuscript.*
 <img src="gallery/cover.png" width="320" alt="A Loom cover: a woven tri-colour emblem above an Optima title.">
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-A23B2E.svg)](LICENSE)
+![Engine: Typst](https://img.shields.io/badge/engine-Typst-239DAD.svg)
 ![Engine: XeLaTeX](https://img.shields.io/badge/engine-XeLaTeX-27406B.svg)
 ![Made with Loom](https://img.shields.io/badge/woven%20on-Loom-BE8A20.svg)
 
@@ -29,13 +30,13 @@ too — **the weave of your own understanding**:
   threads* are your open questions. A *warmth gauge* records how well you actually
   grok each block.
 - ✍️ **Passive + active in one document.** The exposition is written to be **read**;
-  the high-value steps are left **blank** (`\fillin`), proofs ship as **skeletons**
-  (`\TODO`), and the book's examples are restaged as **"your turn"** computations.
+  the high-value steps are left **blank** (`#fillin()`), proofs ship as **skeletons**
+  (`#TODO[]`), and the book's examples are restaged as **"your turn"** computations.
   The source is your answer key.
 - 🎨 **Dyed in real pigments.** Indigo, madder, weld, iron-gall — historical
-  textile and ink dyes no maths template uses. Headings incised in Optima, body
-  and math in Libertinus, 中文 in Songti/楷体. Every cover carries a
-  procedurally-woven emblem.
+  textile and ink dyes no maths template uses. Two built-in themes: *classic*
+  (natural dyes) and *sead* (青竹蜂云 perceptual colormap), plus per-colour
+  overrides.
 - 🤖 **An AI skill that writes them for you.** Point Claude at a chapter and the
   [`fill-in-notes` skill](skill/SKILL.md) produces a complete, compiling notebook
   in this style — organized around a *spine*, not transcribed.
@@ -69,37 +70,70 @@ too — **the weave of your own understanding**:
 </table>
 </div>
 
-## Quickstart
+## Quickstart (Typst)
 
 ```bash
-git clone https://github.com/Polaris-Aeterna/loom-notes.git
+git clone https://github.com/exusiaiwei/loom-notes.git
+cd loom-notes
+
+# copy the starter template into a new project
+cp -r template my-notebook
+cd my-notebook
+
+# compile (the --root flag lets loom.typ resolve from the repo root)
+typst compile --root .. main.typ
+```
+
+Edit `main.typ` — it's a live cheat-sheet of every command. The `#show: loom.with(…)`
+call at the top sets your title, author, theme, and paper size.
+
+> **Requirements.** [Typst](https://typst.app) 0.13+. Fonts: Libertinus Serif
+> (body/math fallback), Liberation Sans or DejaVu Sans (headings). These ship
+> with most Linux distros; on macOS/Windows, install from your package manager
+> or download from the font projects.
+
+### Themes
+
+Two built-in palettes: `"classic"` (natural dyes) and `"sead"` (青竹蜂云).
+Override individual colours with the `palette` parameter:
+
+```typst
+#show: loom.with(
+  title: "My Notes",
+  theme: "sead",
+  palette: (indigo: rgb("#1a5276")),
+)
+```
+
+## Quickstart (XeLaTeX)
+
+```bash
 cd loom-notes/template
 latexmk -xelatex main.tex      # or: xelatex main.tex (twice)
 ```
 
-Then write. A blank starter, doubling as a live cheat-sheet of every command, is
-in [`template/main.tex`](template/main.tex). Open the repo in **VS Code** and the
-bundled [`.vscode/settings.json`](.vscode/settings.json) builds with XeLaTeX on
-every save (LaTeX Workshop defaults to pdflatex, which fails here).
+Open the repo in **VS Code** and the bundled [`.vscode/settings.json`](.vscode/settings.json)
+builds with XeLaTeX on every save (LaTeX Workshop defaults to pdflatex, which fails here).
 
 > **Requirements.** XeLaTeX (TeX Live 2023+). Libertinus ships with TeX Live;
 > Optima / Avenir Next / Songti / 楷体 are macOS system fonts. On other platforms,
 > swap the three `\newfontfamily` lines in [`loom.cls`](loom.cls) for any display
 > sans — everything else stays.
 
-## The toolkit (all built into the class)
+## The toolkit
 
-| you want… | you write… |
-|---|---|
-| the woven cover | `\loomcover{title}{sub}{author}{date}` |
-| a result / definition / example | `theorem` · `definition` · `example` (auto-styled knots) |
-| the intuition voice | `strand` env, `\whisper{…}`, `\keyword{…}` |
-| **a blank to fill** | `\fillin[width]` |
-| **a proof gap** | `\TODO{the missing step}` |
-| **a do-it-yourself box** | `yourturn` env + `\workspace[n]` ruled lines |
-| **how well you grok it** | `\warmth{0..5}` |
-| a margin recall prompt | `\recall{question}` |
-| an open thread / a recurring object | `\loose{…}` · `\warp{key}` / `\pick{key}` |
+| you want… | Typst | LaTeX |
+|---|---|---|
+| the woven cover | `#show: loom.with(title: …)` | `\loomcover{title}{sub}{author}{date}` |
+| a result / definition / example | `#theorem[]` · `#definition[]` · `#example[]` | `theorem` · `definition` · `example` envs |
+| the intuition voice | `#strand[]`, `#whisper[]`, `#keyword[]` | `strand` env, `\whisper{…}`, `\keyword{…}` |
+| **a blank to fill** | `#fillin()` | `\fillin[width]` |
+| **a proof gap** | `#TODO[the missing step]` | `\TODO{the missing step}` |
+| **a do-it-yourself box** | `#yourturn[]` + `#workspace(n: 3)` | `yourturn` env + `\workspace[n]` |
+| **how well you grok it** | `#warmth(0)` … `#warmth(5)` | `\warmth{0..5}` |
+| a margin recall prompt | `#recall[question]` | `\recall{question}` |
+| an open thread / recurring object | `#loose[]` · `#warp("key")` / `#pick("key")` | `\loose{…}` · `\warp{key}` / `\pick{key}` |
+| a cheat-sheet table | `#loom-table(headers: (…), …)` | `tabularx` with `L` column |
 
 Full reference: [`skill/reference/loom-commands.md`](skill/reference/loom-commands.md).
 
@@ -108,8 +142,8 @@ Full reference: [`skill/reference/loom-commands.md`](skill/reference/loom-comman
 [`skill/`](skill/) is a Claude skill that turns a textbook chapter, lecture, or
 paper into a finished Loom notebook: it finds the **spine**, drafts each section in
 the Loom grammar, engineers the gaps at the right density (~70% read / 30% fill),
-compiles, and verifies. See [`SKILL.md`](skill/SKILL.md), and the hard-won XeLaTeX
-gotchas in [`reference/pitfalls.md`](skill/reference/pitfalls.md).
+compiles, and verifies. See [`SKILL.md`](skill/SKILL.md), and the
+engine-specific gotchas in [`reference/pitfalls.md`](skill/reference/pitfalls.md).
 
 ## Examples
 
@@ -128,7 +162,7 @@ algebra, signals, information, and optimization — safe to learn from and to sh
 
 ## License & credits
 
-Code (the `loom.cls` class and the skill): **MIT** — see [LICENSE](LICENSE). Use it,
+Code (`loom.typ`, `loom.cls`, and the skill): **MIT** — see [LICENSE](LICENSE). Use it,
 fork it, re-dye it.
 
 The example **notebooks** are study notes that restate results from their sources
