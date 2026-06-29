@@ -536,7 +536,7 @@
         v(1.1cm)
         {
           set text(font: strand-fonts, size: 8pt, fill: selvage)
-          [dyed in #text(fill: indigo)[indigo], #text(fill: madder)[madder] & #text(fill: weld)[weld]; ruled in iron-gall. #h(1em) woven on #smallcaps[loom].]
+          [dyed in #text(fill: indigo)[indigo], #text(fill: madder)[madder] & #text(fill: weld)[weld]; ruled in iron-gall. #h(1em) woven on #text(size: 0.85em, tracking: 0.05em)[LOOM].]
         }
       })
     },
@@ -545,6 +545,27 @@
 
 // ─── MAIN TEMPLATE ENTRY ─────────────────────────────────────────────────────
 
+// Start the rail without a cover page (equivalent to LaTeX \weave)
+#let loom-nocover(
+  paper: "a4",
+  cjk: false,
+  running-title: "",
+  body,
+) = {
+  show: loom-page-setup.with(paper: paper, cjk: cjk, running-title: running-title)
+  show: loom-heading-rules
+
+  set heading(numbering: "1.1")
+
+  show heading.where(level: 1): it => {
+    _knot-counter.update(0)
+    it
+  }
+
+  body
+}
+
+// Full template with cover page
 #let loom(
   title: "",
   subtitle: "",
@@ -564,7 +585,6 @@
 
   set heading(numbering: "1.1")
 
-  // reset knot counter at each section
   show heading.where(level: 1): it => {
     _knot-counter.update(0)
     it

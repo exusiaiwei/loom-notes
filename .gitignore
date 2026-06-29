@@ -16,6 +16,12 @@
 *.vrb
 *.xdv
 
+# Typst build artifacts
+typst-test/*.png
+typst-test/*.pdf
+template/*.png
+template/*.pdf
+
 # macOS
 .DS_Store
 
