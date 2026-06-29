@@ -176,12 +176,20 @@
     size: 11pt,
     fill: inkiron,
   )
-  set par(first-line-indent: 0pt, spacing: 0.6em, leading: 0.58em)
+  set par(first-line-indent: 0pt, spacing: 0.55em, leading: 0.55em)
 
   show math.equation: set text(font: math-fonts)
 
   // link styling
   show link: set text(fill: indigo)
+
+  // booktabs-style tables
+  set table(
+    stroke: none,
+    inset: (x: 6pt, y: 5pt),
+  )
+  show table: set text(size: 10pt)
+  show figure.where(kind: table): set figure.caption(position: top)
 
   body
 }
@@ -275,9 +283,12 @@
       }
       if note != none {
         [ ]
-        text(style: "italic", fill: inkiron)[_(#note)._]
+        {
+          set text(style: "italic", fill: inkiron)
+          [(#note).]
+        }
       } else {
-        [. ]
+        [.]
       }
       [ ]
       body
@@ -296,10 +307,16 @@
 #let remark(body, note: none) = {
   v(5pt)
   block({
-    text(style: "italic", fill: madder)[Remark]
+    {
+      set text(style: "italic", fill: madder)
+      [Remark]
+    }
     if note != none {
       [ ]
-      text(style: "italic", fill: inkiron)[_(#note)_]
+      {
+        set text(style: "italic", fill: inkiron)
+        [(#note)]
+      }
     }
     [. ]
     body
@@ -325,11 +342,12 @@
   v(6pt)
   block(
     width: 100%,
-    fill: indigo.lighten(96%),
+    fill: indigo.lighten(97%),
     inset: (left: 11pt, right: 9pt, top: 7pt, bottom: 7pt),
     stroke: (left: 1.6pt + indigo.lighten(45%)),
+    breakable: true,
     {
-      set text(font: strand-fonts, size: 10pt, fill: inkiron.lighten(8%))
+      set text(font: strand-fonts, size: 9.5pt, fill: inkiron.lighten(10%))
       body
     },
   )
@@ -451,6 +469,24 @@
   h(4pt)
   text(size: 7.5pt, fill: selvage, font: heading-fonts)[#id]
   h(0.6em)
+}
+
+// ─── TABLES (booktabs style) ─────────────────────────────────────────────────
+
+#let loom-table(headers: (), columns: auto, ..args) = {
+  let cells = args.pos()
+  let ncols = headers.len()
+  let cols = if columns == auto { (auto,) * ncols } else { columns }
+  table(
+    columns: cols,
+    stroke: none,
+    inset: (x: 8pt, y: 5pt),
+    table.hline(stroke: 1.2pt + inkiron),
+    ..headers.map(h => table.cell(text(font: heading-fonts, size: 9pt, fill: selvage, weight: "bold", lower(h)))),
+    table.hline(stroke: 0.6pt + thread),
+    ..cells,
+    table.hline(stroke: 1.2pt + inkiron),
+  )
 }
 
 // ─── THE COVER ───────────────────────────────────────────────────────────────

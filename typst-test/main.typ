@@ -55,6 +55,16 @@ The information content of a single outcome $x_i$ is #fillin(width: 3cm).
   #workspace(n: 4)
 ]
 
+== The Identities (the information diagram)
+
+#loom-table(
+  headers: ("identity", "reading"),
+  [$H(X,Y) = H(X) + H(Y|X)$], [#keyword[chain rule]: total = first + rest],
+  [$I(X;Y) = H(X) + H(Y) - H(X,Y)$], [shared = overlap of the two circles],
+  [$I(X;Y) = D_"KL" (p_(X Y) || p_X p_Y)$], [information = distance from #keyword[independence]],
+  [$I(X;Y) >= 0$, with $= 0$ iff independent], [you never lose by looking at $Y$],
+)
+
 = Mutual Information
 
 #warp("mi")
