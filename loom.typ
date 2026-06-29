@@ -191,6 +191,17 @@
   show table: set text(size: 10pt)
   show figure.where(kind: table): set figure.caption(position: top)
 
+  // list styling
+  set enum(indent: 0pt, spacing: 0.6em)
+  set list(indent: 0pt, spacing: 0.6em, marker: text(fill: inkiron, size: 6pt)[#sym.circle.filled])
+
+  // equation spacing
+  show math.equation.where(block: true): it => {
+    v(3pt)
+    it
+    v(3pt)
+  }
+
   body
 }
 
