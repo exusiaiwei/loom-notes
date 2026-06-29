@@ -9,12 +9,16 @@
 #let RR = $bb(R)$
 #let EE = $bb(E)$
 
+// Theme options: "classic" (natural dyes) or "sead" (青竹蜂云 palette).
+// You can also override individual colours:
+//   palette: (indigo: rgb("#2E5090"), madder: rgb("#8B2252"))
 #show: loom.with(
   title: "Title of the Notebook",
   subtitle: "a one-line subtitle",
   author: "Your Name",
   date: datetime.today().display("[month repr:long] [day], [year]"),
   running-title: "your topic",
+  theme: "classic",
 )
 
 = First Course
